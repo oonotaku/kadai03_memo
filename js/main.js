@@ -1,18 +1,20 @@
-$(document).ready(function(){
+$(document).ready(function() {
     // 今日の日付を取得して初期値として設定
     const today = new Date().toISOString().split('T')[0];
-    // ISO 形式はyy-mm-ddの形
     $('#visit-date').val(today);
 });
 
+// マップとマーカーの変数を宣言
 let map;
 let marker;
 
+// マップを初期化する関数
 function initMap() {
     // 初期化時には地図を非表示にする
     document.getElementById('map').style.display = 'none';
 }
 
+// 「この店の位置を保存」ボタンがクリックされたときの処理
 document.getElementById('savemap').addEventListener('click', () => {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -59,8 +61,33 @@ document.getElementById('savemap').addEventListener('click', () => {
     }
 });
 
+// 画像データを一時的に保持する変数
+let currentImageData = '';
+
+// 画像データを保存する関数
+function saveImageData(imageData) {
+    currentImageData = imageData;
+}
+
+// ファイル入力が変更されたときのイベントリスナー
+document.getElementById('img').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('preview');
+            preview.src = e.target.result;
+            preview.style.display = 'block'; // 画像を表示
+            // 画像データを保存
+            saveImageData(e.target.result);
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// 位置情報と画像データを保存する関数
 function saveLocation(position) {
-    const shopName = document.getElementById('shop-name').value;
+    const shopName = document.getElementById('shop-name').value.trim();
     const visitDate = document.getElementById('visit-date').value;
 
     if (!shopName || !visitDate) {
@@ -68,43 +95,22 @@ function saveLocation(position) {
         return;
     }
 
+    if (!currentImageData) {
+        alert('画像を選択してください。');
+        return;
+    }
+
+    // キーとして店名と来店日を組み合わせる
+    const key = `${shopName}_${visitDate}`;
+
+    // 保存するデータ
     const storeData = {
-        name: shopName,
-        date: visitDate,
         location: position,
+        // image: currentImageData,
     };
 
-    // 既存のデータを取得
-    const existingData = JSON.parse(localStorage.getItem('storeData')) || [];
-
-    // 新しいデータを追加
-    existingData.push(storeData);
-
-    // 更新されたデータを保存
-    localStorage.setItem('storeData', JSON.stringify(existingData));
+    // データをlocalStorageに保存
+    localStorage.setItem(key, JSON.stringify(storeData));
 
     alert('現在地と情報を保存しました。');
-}
-
-        document.getElementById('img').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const preview = document.getElementById('preview');
-                    preview.src = e.target.result;
-                    preview.style.display = 'block'; // 画像を表示
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-// 画像データをBase64形式に変換する関数
-function getImageBase64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-        reader.readAsDataURL(file);
-    });
 }

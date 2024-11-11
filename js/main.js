@@ -85,3 +85,13 @@ function saveLocation(position) {
 
     alert('現在地と情報を保存しました。');
 }
+
+// 画像データをBase64形式に変換する関数
+function getImageBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(file);
+    });
+}

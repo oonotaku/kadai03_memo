@@ -20,12 +20,26 @@
     </div>
     
     <div id="shop-info">
+        
+        <div>
         <input id="shop-name"  type="text"  placeholder="店名を入力">
-        <div id="map"></div>
-        <button id="savemap">現在地を保存</button>
+        </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="./JS/main.js"></script>
+        <div id="map"></div>
+        <button id="savemap">この店の位置を保存</button>
+        <!-- 画像選択用のファイル入力フィールド -->
+        
+        <div>
+            <!-- input[type="file"] を label で囲む -->
+        <button class="custom-file-upload" onclick="document.getElementById('img').click();">
+        カメラで記録しよう
+        </button>
+        <input type="file" id="img" accept="image/*" capture="camera">
+        <div id="img" style="display: none;"></div>
+
+        </div>
+
+
     </div>
 
 

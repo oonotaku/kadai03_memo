@@ -33,4 +33,10 @@
                                             border-radius: 4px;
                                         }
 
-
+                #preview {
+                    margin-top: 10px;
+                    max-width: 100%;
+                    height: auto;
+                    display: none;
+                    /* 初期状態では非表示 */
+                }

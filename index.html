@@ -30,13 +30,14 @@
         <!-- 画像選択用のファイル入力フィールド -->
         
         <div>
-            <!-- input[type="file"] を label で囲む -->
-        <button class="custom-file-upload" onclick="document.getElementById('img').click();">
-        カメラで記録しよう
-        </button>
-        <input type="file" id="img" accept="image/*" capture="camera">
-        <div id="img" style="display: none;"></div>
-
+            <!-- カスタムファイルアップロードボタン -->
+            <label for="img" class="custom-file-upload">
+                カメラで記録しよう
+            </label>
+            <!-- ファイル入力フィールドを隠す -->
+            <input type="file" id="img" accept="image/*" capture="camera" style="display: none;">
+            <!-- 選択した画像のプレビュー表示 -->
+            <img id="preview" alt="選択した画像のプレビュー">
         </div>
 
 

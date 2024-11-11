@@ -102,15 +102,16 @@ function saveLocation(position) {
 
     // キーとして店名と来店日を組み合わせる
     const key = `${shopName}_${visitDate}`;
+    const value  =`${currentImageData}`;
 
-    // 保存するデータ
-    const storeData = {
-        location: position,
-        // image: currentImageData,
-    };
+    // // 保存するデータ
+    // const storeData = {
+    //     location: position,
+    //     image: currentImageData,
+    // };
 
-    // データをlocalStorageに保存
-    localStorage.setItem(key, JSON.stringify(storeData));
+    // // データをlocalStorageに保存
+    // localStorage.setItem(key, JSON.stringify(storeData));
 
-    alert('現在地と情報を保存しました。');
+    // alert('現在地と情報を保存しました。');
 }
